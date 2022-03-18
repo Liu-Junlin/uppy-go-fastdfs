@@ -1,7 +1,7 @@
 {
   "name": "@elanbase/uppy-go-fastdfs",
   "description": "Uppy Upload Plugin With Go Fastdfs",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "main": "dist/index.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"

@@ -8,7 +8,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, './dist'),
         publicPath: '/dist/',
-        filename: 'index.js',
+        filename: 'index.min.js',
         library: 'UppyGoFastdfs', // 指定的就是你使用require时的模块名
         libraryTarget: 'umd'
     },
@@ -80,7 +80,7 @@ if (process.env.NODE_ENV === 'production') {
         new CopyWebpackPlugin([
             {
                 from: __dirname + '/src',
-                to: __dirname + '/dist/index.min.js',
+                to: __dirname + '/dist/index.js',
                 flatten: ['*.js']
             }
         ])
