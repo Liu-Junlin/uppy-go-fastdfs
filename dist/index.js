@@ -4,7 +4,6 @@ import SparkMD5 from "spark-md5"
 const stDefaultOptions = {
     gateway: '',
     md5Endpoint: '',
-    transSrc: false,
     md5SliceSize: 1024 * 1024 * 2, //默认文件分片大小,2MB
     onUpload: null
 }
@@ -32,23 +31,22 @@ export default class SuperTrans extends BasePlugin {
                 let uploadResult = this.toResult(md5, file);
                 this.opts.onUpload(uploadResult);
             } else {
-                if (this.opts.transSrc) {
-                    this.getFileInfoByMd5(md5)
-                        .then(fileInfo => {
-                            uppy.setFileState(file.id, {
-                                response: {
-                                    uploadURL: fileInfo.url,
-                                    superTrans: false
-                                }
-                            });
-                            uppy.setFileMeta(file.id, {
-                                src: fileInfo.src
-                            });
-                            file = uppy.getFile(file.id);
-                            let uploadResult = this.toResult(md5, file);
-                            this.opts.onUpload(uploadResult);
+                this.getFileInfoByMd5(md5)
+                    .then(fileInfo => {
+                        uppy.setFileState(file.id, {
+                            response: {
+                                uploadURL: fileInfo.url,
+                                superTrans: false
+                            },
+                            uploadURL: fileInfo.url
                         });
-                }
+                        uppy.setFileMeta(file.id, {
+                            src: fileInfo.src
+                        });
+                        file = uppy.getFile(file.id);
+                        let uploadResult = this.toResult(md5, file);
+                        this.opts.onUpload(uploadResult);
+                    });
             }
         });
     }
