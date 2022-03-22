@@ -128,26 +128,22 @@ export default class SuperTrans extends BasePlugin {
      */
     getFileInfoByMd5 = (md5) => {
         return new Promise((resolve, reject) => {
-            let fileInfo = {};
             if (md5) {
                 fetch(this.opts.md5Endpoint + md5, {
                     method: 'GET'
                 })
                     .then(response => response.json())
-                    .then(data => {
-
-                        if (data.id) {
-                            //json格式
-                            fileInfo = data;
-                        } else if (data.data) {
+                    .then(json => {
+                        if (json.status === "ok" && json.data) {
                             //json2格式
-                            fileInfo = data.data;
+                            resolve(json.data);
+                        } else {
+                            resolve(json.status + "," + json.message);
                         }
-                        resolve(fileInfo);
                     })
                     .catch((error) => reject(error));
             } else {
-                resolve(fileInfo);
+                reject("MD5为空")
             }
         });
     }
