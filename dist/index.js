@@ -67,11 +67,10 @@ export default class SuperTrans extends BasePlugin {
     toResult(md5, file) {
         return {
             id: md5,
-            url: file.response.uploadURL,
-            src: file.meta.src,
+            url: file.response.uploadURL + "?name=" + file.name,
+            src: file.meta.src + "?name=" + file.name,
             extension: file.extension,
             file: file.data,
-            scene: file.meta.scene,
             type: file.meta.type || file.data.type,
             superTrans: file.response.superTrans
         }
